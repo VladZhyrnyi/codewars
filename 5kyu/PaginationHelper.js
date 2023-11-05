@@ -32,12 +32,15 @@ class PaginationHelper {
     // returns the number of items on the current page. page_index is zero based.
     // this method should return -1 for pageIndex values that are out of range
 
-    if (pageIndex >= this.pageCount() || pageIndex < 0) return -1
-    else if (pageIndex < this.pageCount() - 1) {
-      return this.itemsPerPage
-    } else {
+    const lastPageIndex = this.pageCount() - 1
+
+    if (pageIndex > lastPageIndex || pageIndex < 0) {
+      return -1
+    } else if (pageIndex === lastPageIndex) {
       const remainder = this.itemCount() % this.itemsPerPage
       return remainder === 0 ? this.itemsPerPage : remainder
+    } else {
+      return this.itemsPerPage
     }
   }
 
