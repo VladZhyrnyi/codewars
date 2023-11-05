@@ -20,7 +20,6 @@ class PaginationHelper {
 
   itemCount() {
     // returns the number of items within the entire collection
-
     return this.collection.length
   }
 
@@ -37,7 +36,8 @@ class PaginationHelper {
     else if (pageIndex < this.pageCount() - 1) {
       return this.itemsPerPage
     } else {
-      return this.itemCount() % this.itemsPerPage || this.itemsPerPage
+      const remainder = this.itemCount() % this.itemsPerPage
+      return remainder === 0 ? this.itemsPerPage : remainder
     }
   }
 
@@ -45,17 +45,19 @@ class PaginationHelper {
     // determines what page an item is on. Zero based indexes
     // this method should return -1 for itemIndex values that are out of range
 
-    if (itemIndex < 0 || itemIndex > this.itemCount() - 1) {
+    if (itemIndex < 0 || itemIndex >= this.itemCount()) {
       return -1
     } else if (itemIndex === 0) {
       return 0
     } else {
-      return Math.ceil(itemIndex / this.itemsPerPage)
+      return Math.floor(itemIndex / this.itemsPerPage)
     }
   }
 }
 
-var helper = new PaginationHelper(['a', 'b', 'c', 'd', 'e', 'f'], 4)
+// Test code
+
+const helper = new PaginationHelper(['a', 'b', 'c', 'd', 'e', 'f'], 4)
 
 console.log('should === 2 =>', helper.pageCount()) // should == 2
 console.log('should === 6 =>', helper.itemCount()) // should == 6
